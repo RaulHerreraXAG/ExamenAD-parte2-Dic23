@@ -3,6 +3,8 @@ package cesur.examen.domain.car;
 import cesur.examen.domain.client.Client;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -10,29 +12,34 @@ import java.io.Serializable;
  * EXAMEN DE ACCESO A DATOS
  * Diciembre 2023
  *
- * Nombre del alumno:
- * Fecha:
+ * Nombre del alumno: Raúl Herrera Alba
+ * Fecha: 11-12-2023
  */
 
 
-@Data
+@Entity
+@Table(name = "garaje")
+@Getter
+@Setter
 public class Car implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "matricula")
     private String plate;
 
+    @Column(name = "modelo")
     private String model;
 
+    @Column(name = "fabricante")
     private String manufacturer;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente", referencedColumnName = "id")
     private Client client;
 
-    /**
-     * Override inherited toString() method to prevent stackOverFlow exceptions
-     * from relationship.
-     * @return
-     */
     @Override
     public String toString() {
         return "Car{" +
@@ -40,7 +47,8 @@ public class Car implements Serializable {
                 ", plate='" + plate + '\'' +
                 ", model='" + model + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
-                ", client=" + client.getName() +
+                ", client=" + Client.class +
                 '}';
     }
+
 }
